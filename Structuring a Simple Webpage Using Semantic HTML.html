@@ -1,0 +1,64 @@
+<!--L0 - Structuring a Simple Webpage Using Semantic HTML-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Basic Webpage with Semantic HTML</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 20px;
+            background-color: #f9f9f9;
+        }
+        header, footer, nav, section, article {
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        header, footer {
+            background-color: #007bff;
+            color: #fff;
+        }
+        nav a {
+            margin: 0 10px;
+            color: #fff;
+            text-decoration: none;
+        }
+        nav a:hover {
+            text-decoration: underline;
+        }
+        section {
+            background-color: #fff;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>My Simple Webpage</h1>
+        <nav>
+            <a href="#home">Home</a>
+            <a href="#about">About</a>
+            <a href="#contact">Contact</a>
+        </nav>
+    </header>
+
+    <section id="blog">
+        <article>
+            <h2>First Blog Post</h2>
+            <p>This is the content of my first blog post. It introduces the topic and gives readers some insight into the subject matter.</p>
+        </article>
+        <article>
+            <h2>Second Blog Post</h2>
+            <p>This is the content of my second blog post. It continues the discussion and adds more details for readers to explore.</p>
+        </article>
+    </section>
+
+    <footer>
+        <p>&copy; 2025 My Simple Webpage. All rights reserved.</p>
+    </footer>
+</body>
+</html>
