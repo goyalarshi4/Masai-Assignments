@@ -1,0 +1,74 @@
+<!--L2 - Complex Navigation Styling with Combinators, Pseudo-Classes, and Specificity-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Complex Navigation Bar</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="section">
+            <a href="#" class="main-link">Home</a>
+            <a href="#" class="main-link">About</a>
+        </div>
+        <div class="section">
+            <a href="https://example.com" class="main-link">External Link</a>
+            <div class="submenu">
+                <a href="#" class="sub-link">Sub Link 1</a>
+                <a href="#" class="sub-link">Sub Link 2</a>
+            </div>
+        </div>
+        <div class="section">
+            <a href="#" class="main-link">Contact</a>
+        </div>
+    </nav>
+
+    <!-- styles.css -->
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-around;
+            padding: 10px;
+            background: #eee;
+        }
+
+        .section > a {
+            color: blue;
+            text-decoration: none;
+            padding: 5px;
+        }
+
+        .section a:hover {
+            color: orange;
+        }
+
+        .section a:active {
+            color: red;
+        }
+
+        .submenu a {
+            color: green;
+            padding-left: 10px;
+        }
+
+        a[href^="https"] {
+            color: purple !important;
+        }
+    </style>
+
+    <!-- Explanation of Fixes: -->
+    <!-- - Used combinators to style direct and nested links differently. -->
+    <!-- - Added :hover and :active for interactive states. -->
+    <!-- - Used an attribute selector with higher specificity for external links. -->
+    <!-- - Ensured responsiveness with flex layout. -->
+    <!-- Save and push the project to your Masai Git repository! -->
+</body>
+</html>

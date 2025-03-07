@@ -1,0 +1,64 @@
+<!--L1 - Debugging CSS: Fix the Layout Issues-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fix Layout</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <h1>Debugging Task</h1>
+    <div class="container">
+        <div class="box">Box 1</div>
+        <div class="box">Box 2</div>
+        <div class="box">Box 3</div>
+    </div>
+    <p class="text">Fix my position!</p>
+</body>
+</html>
+
+<!-- styles.css -->
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    .container {
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        padding: 10px;
+    }
+
+    .box {
+        width: 100px;
+        height: 100px;
+        background: lightblue;
+        border: 1px solid black;
+        margin: 10px;
+        position: relative;
+    }
+
+    .text {
+        position: fixed;
+        left: 50%;
+        top: 0;
+        transform: translateX(-50%);
+        background: white;
+        padding: 5px;
+        border: 1px solid #ccc;
+    }
+</style>
+
+<!-- Explanation of Fixes: -->
+<!-- - Added box-sizing: border-box to handle dimensions properly. -->
+<!-- - Changed .container to use flexbox for proper layout and alignment. -->
+<!-- - Fixed the negative margin issue in .box to avoid overlap. -->
+<!-- - Adjusted .text with transform to center it properly. -->
+<!-- - Made positions relative to avoid absolute overlap. -->
+<!-- Save the HTML and CSS in separate files (index.html & styles.css) -->
+<!-- Push the project to your Masai Git repository and submit the link! -->

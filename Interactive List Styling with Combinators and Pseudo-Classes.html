@@ -1,0 +1,50 @@
+<!--L1 - Interactive List Styling with Combinators and Pseudo-Classes-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive List Styling</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <h1>Interactive List Styling</h1>
+    <ol class="interactive-list">
+        <li>Item 1</li>
+        <li>Item 2</li>
+        <li>Item 3</li>
+        <li>Item 4</li>
+        <li>Item 5</li>
+    </ol>
+
+    <!-- styles.css -->
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        .interactive-list li:first-child {
+            font-weight: bold;
+        }
+
+        .interactive-list li:first-child + li {
+            background-color: #f0f0f0;
+        }
+
+        .interactive-list li:nth-child(n+4),
+        .interactive-list li:nth-child(n+4) ~ li {
+            font-style: italic;
+        }
+
+        .interactive-list li:hover {
+            color: blue;
+            cursor: pointer;
+        }
+    </style>
+
+   
+</body>
+</html>

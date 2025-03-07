@@ -1,0 +1,33 @@
+<!--L0 - Styling Elements with Descendant and Child Combinators-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Styling with Descendant and Child Combinators</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div>
+        <p>This paragraph is a direct child of the div and should be bold and blue.</p>
+        <section>
+            <p>This paragraph is inside a section, nested within the div, and should only be blue.</p>
+        </section>
+    </div>
+</body>
+</html>
+
+<!-- styles.css -->
+<style>
+
+    div p {
+        color: blue;
+    }
+
+    div > p {
+        font-weight: bold;
+    }
+</style>
+
+
