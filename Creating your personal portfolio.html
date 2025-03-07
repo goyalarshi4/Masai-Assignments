@@ -1,0 +1,127 @@
+<!--L2 - Creating your personal portfolio-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>My Portfolio</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f9f9f9;
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    .container {
+      max-width: 900px;
+      margin: 20px auto;
+      padding: 20px;
+      border: 2px solid #ccc;
+      border-radius: 12px;
+      background-color: white;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+    header, section, footer {
+      margin-bottom: 20px;
+      padding: 15px;
+      border: 2px solid #ddd;
+      border-radius: 10px;
+    }
+    header {
+      text-align: center;
+      background-color: #ff6347;
+      color: white;
+    }
+    nav a {
+      margin: 0 15px;
+      text-decoration: none;
+      color: white;
+    }
+    #about img {
+      max-width: 100px;
+      border-radius: 50%;
+    }
+    .project {
+      margin-top: 10px;
+    }
+    form {
+      display: flex;
+      flex-direction: column;
+    }
+    form input, form textarea {
+      margin-bottom: 10px;
+      padding: 8px;
+      border: 1px solid #aaa;
+      border-radius: 8px;
+    }
+    form button {
+      padding: 10px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    footer {
+      text-align: center;
+      background-color: #ff6347;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Welcome to My Portfolio</h1>
+      <nav>
+        <a href="#about">About</a>
+        <a href="#projects">Projects</a>
+        <a href="#contact">Contact</a>
+      </nav>
+    </header>
+
+    <section id="about">
+      <h2>About Me</h2>
+      <p>Hello! I am a passionate web developer creating functional and beautiful web applications.</p>
+      <img src="profile.jpg" alt="Profile Image">
+    </section>
+
+    <section id="projects">
+      <h2>Projects</h2>
+      <div class="project">
+        <h3>Project One: Personal Blog</h3>
+        <p>A personal blog to share thoughts on development, programming, and technology.</p>
+        <a href="https://github.com/goyalarshi4">GitHub Repo</a> |
+        <a href="https://github.com/goyalarshi4">Live Demo</a>
+      </div>
+
+      <div class="project">
+        <h3>Project Two: E-commerce Site</h3>
+        <p>An e-commerce website to provide users a seamless shopping experience.</p>
+        <a href="https://github.com/goyalarshi4">GitHub Repo</a> |
+        <a href="https://github.com/goyalarshi4">Live Demo</a>
+      </div>
+    </section>
+
+    <section id="contact">
+      <h2>Contact Me</h2>
+      <form>
+        <label for="name">Full Name</label>
+        <input type="text" id="name" name="name" placeholder="Your Name" required>
+
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" placeholder="Your Email" required>
+
+        <label for="message">Message</label>
+        <textarea id="message" name="message" placeholder="Your Message" rows="4" required></textarea>
+
+        <button type="submit">Submit</button>
+      </form>
+    </section>
+
+    <footer>
+      <p>&copy; 2025 My Portfolio | Follow me on <a href="https://github.com/goyalarshi4" style="color: white;">GitHub</a></p>
+    </footer>
+  </div>
+</body>
+</html>

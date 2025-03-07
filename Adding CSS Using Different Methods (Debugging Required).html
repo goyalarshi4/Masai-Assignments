@@ -1,0 +1,46 @@
+<!--L1 - Adding CSS Using Different Methods (Debugging Required)-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multi-Method CSS Example</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        h1 {
+            color: navy;
+            font-size: 28px;
+            background-color: #f0f0f0;
+        }
+        .highlighted-text {
+            background-color: yellow;
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <h1>Main Title</h1>
+    <p style="font-size: 16px; color: #333;">This paragraph has inline styles applied.</p>
+    <p class="highlighted-text">This paragraph uses a class-based style.</p>
+    <div id="main-container">
+        <p>This div should have styles from the external stylesheet.</p>
+    </div>
+</body>
+</html>
+
+<!-- styles.css -->
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    #main-container {
+        padding: 20px;
+        border: 1px solid #ccc;
+        background-color: #e6e6e6;
+    }
+</style>
+
