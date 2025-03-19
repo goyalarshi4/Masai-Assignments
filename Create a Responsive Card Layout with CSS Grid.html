@@ -1,0 +1,66 @@
+<!--L2 - Create a Responsive Card Layout with CSS Grid-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Responsive Card Layout</title>
+</head>
+<body style="font-family: Arial, sans-serif; line-height: 1.6; color: #333; background: #f4f4f4; padding: 20px; margin: 0;">
+
+<h1 style="text-align: center; margin-bottom: 20px;">Responsive Card Layout</h1>
+
+<div style="display: grid; gap: 20px; grid-template-columns: repeat(4, 1fr);">
+
+    <div style="background: white; border: 1px solid #ccc; border-radius: 8px; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1); overflow: hidden; transition: transform 0.3s; cursor: pointer;" 
+         onmouseover="this.style.transform='translateY(-10px)'" 
+         onmouseout="this.style.transform='translateY(0)'">
+        <img src="https://via.placeholder.com/300" alt="Card Image" style="width: 100%; height: 180px; object-fit: cover;">
+        <h2 style="font-size: 20px; margin: 15px;">Card Title 1</h2>
+        <p style="font-size: 16px; margin: 0 15px 15px;">Description for the first card goes here.</p>
+    </div>
+
+    <div style="background: white; border: 1px solid #ccc; border-radius: 8px; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1); overflow: hidden; transition: transform 0.3s; cursor: pointer;" 
+         onmouseover="this.style.transform='translateY(-10px)'" 
+         onmouseout="this.style.transform='translateY(0)'">
+        <img src="https://via.placeholder.com/300" alt="Card Image" style="width: 100%; height: 180px; object-fit: cover;">
+        <h2 style="font-size: 20px; margin: 15px;">Card Title 2</h2>
+        <p style="font-size: 16px; margin: 0 15px 15px;">Description for the second card goes here.</p>
+    </div>
+
+    <div style="background: white; border: 1px solid #ccc; border-radius: 8px; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1); overflow: hidden; transition: transform 0.3s; cursor: pointer;" 
+         onmouseover="this.style.transform='translateY(-10px)'" 
+         onmouseout="this.style.transform='translateY(0)'">
+        <img src="https://via.placeholder.com/300" alt="Card Image" style="width: 100%; height: 180px; object-fit: cover;">
+        <h2 style="font-size: 20px; margin: 15px;">Card Title 3</h2>
+        <p style="font-size: 16px; margin: 0 15px 15px;">Description for the third card goes here.</p>
+    </div>
+
+    <div style="background: white; border: 1px solid #ccc; border-radius: 8px; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1); overflow: hidden; transition: transform 0.3s; cursor: pointer;" 
+         onmouseover="this.style.transform='translateY(-10px)'" 
+         onmouseout="this.style.transform='translateY(0)'">
+        <img src="https://via.placeholder.com/300" alt="Card Image" style="width: 100%; height: 180px; object-fit: cover;">
+        <h2 style="font-size: 20px; margin: 15px;">Card Title 4</h2>
+        <p style="font-size: 16px; margin: 0 15px 15px;">Description for the fourth card goes here.</p>
+    </div>
+
+</div>
+
+<script>
+    function updateGrid() {
+        const container = document.querySelector('div');
+        if (window.innerWidth <= 768) {
+            container.style.gridTemplateColumns = '1fr';
+        } else if (window.innerWidth <= 1024) {
+            container.style.gridTemplateColumns = 'repeat(2, 1fr)';
+        } else {
+            container.style.gridTemplateColumns = 'repeat(4, 1fr)';
+        }
+    }
+
+    window.addEventListener('resize', updateGrid);
+    window.addEventListener('DOMContentLoaded', updateGrid);
+</script>
+
+</body>
+</html>
