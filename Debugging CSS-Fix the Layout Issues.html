@@ -1,0 +1,70 @@
+<!--L1 - Debugging CSS: Fix the Layout Issues-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fixed Layout</title>
+    <style>
+        /* Reset default margin and padding */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Center the container and prevent overlap */
+        .container {
+            display: flex;
+            justify-content: center;
+            gap: 20px; /* Adds spacing between boxes */
+            padding: 20px;
+            flex-wrap: wrap; /* Makes it responsive */
+        }
+
+        /* Styling for the boxes */
+        .box {
+            width: 100px;
+            height: 100px;
+            background: lightblue;
+            border: 1px solid black;
+            text-align: center;
+            line-height: 100px;
+            font-weight: bold;
+            position: relative; /* Changed from absolute */
+            margin: 10px;
+        }
+
+        /* Proper positioning for the text */
+        .text {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            top: 20px;
+            background: yellow;
+            padding: 5px 10px;
+            font-weight: bold;
+            border: 1px solid black;
+        }
+
+        /* Making it responsive */
+        @media (max-width: 600px) {
+            .container {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1 style="text-align: center; padding: 10px;">Debugging Task</h1>
+
+    <p class="text">Fix my position!</p>
+
+    <div class="container">
+        <div class="box">Box 1</div>
+        <div class="box">Box 2</div>
+        <div class="box">Box 3</div>
+    </div>
+</body>
+</html>
