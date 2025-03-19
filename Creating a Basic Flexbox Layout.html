@@ -1,0 +1,84 @@
+<!--L0 - Creating a Basic Flexbox Layout-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exploring Flex-Direction</title>
+    <style>
+        /* Flex container styling */
+        .container {
+            display: flex;
+            justify-content: center; /* Centers items horizontally */
+            align-items: center; /* Centers items vertically */
+            gap: 10px; /* Adds space between items */
+            border: 2px solid #333;
+            padding: 20px;
+            background-color: #f4f4f4;
+            height: 300px;
+        }
+
+        /* Initially, items are in a row */
+        .row {
+            flex-direction: row; /* Default direction - items appear in a row */
+        }
+
+        /* Changing layout to column */
+        .column {
+            flex-direction: column; /* Items appear in a column */
+        }
+
+        /* Styling for flex items */
+        .item {
+            padding: 20px;
+            background-color: #3498db;
+            color: white;
+            font-size: 18px;
+            text-align: center;
+            border-radius: 5px;
+            width: 80px;
+        }
+
+        /* Button styling */
+        button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border: none;
+            background-color: #2ecc71;
+            color: white;
+            border-radius: 5px;
+        }
+
+        button:hover {
+            background-color: #27ae60;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container row" id="flexContainer">
+        <div class="item">Item 1</div>
+        <div class="item">Item 2</div>
+        <div class="item">Item 3</div>
+        <div class="item">Item 4</div>
+    </div>
+
+    <button onclick="toggleDirection()">Toggle Flex Direction</button>
+
+    <script>
+        function toggleDirection() {
+            const container = document.getElementById("flexContainer");
+            if (container.classList.contains("row")) {
+                container.classList.remove("row");
+                container.classList.add("column");
+            } else {
+                container.classList.remove("column");
+                container.classList.add("row");
+            }
+        }
+    </script>
+
+</body>
+</html>
