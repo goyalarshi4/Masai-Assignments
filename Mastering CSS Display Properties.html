@@ -1,0 +1,50 @@
+<!--L0 - Mastering CSS Display Properties-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSS Display Properties</title>
+</head>
+<body style="font-family: Arial, sans-serif; text-align: center;">
+
+    <h2>L0 - Mastering CSS Display Properties</h2>
+
+    <!-- Block Element -->
+    <div id="block-element" style="display: block; width: 80%; margin: 10px auto; padding: 15px; border: 3px solid black; background-color: lightblue;">
+        This is a block element. It takes the full width.
+    </div>
+
+    <!-- Inline Element -->
+    <span id="inline-element" style="display: inline; background-color: lightcoral; padding: 5px; border: 2px solid black;">
+        This is an inline element.
+    </span>
+
+    <!-- Inline-Block Element -->
+    <div id="inline-block-element" style="display: inline-block; width: 200px; padding: 10px; border: 2px solid black; background-color: lightgreen; margin: 10px;">
+        This is an inline-block element.
+    </div>
+
+    <!-- Hidden Element -->
+    <div id="hidden-element" style="display: none; padding: 10px; border: 2px solid black; background-color: gray; margin-top: 10px;">
+        This is a hidden element.
+    </div>
+
+    <!-- Button to toggle hidden element -->
+    <button onclick="toggleElement()" style="margin-top: 15px; padding: 10px; font-size: 16px; cursor: pointer;">
+        Toggle Hidden Element
+    </button>
+
+    <script>
+        function toggleElement() {
+            var element = document.getElementById("hidden-element");
+            if (element.style.display === "none") {
+                element.style.display = "block";
+            } else {
+                element.style.display = "none";
+            }
+        }
+    </script>
+
+</body>
+</html>
