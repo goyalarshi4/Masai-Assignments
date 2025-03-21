@@ -1,0 +1,41 @@
+<!--L1 - Debugging a Responsive Grid Layout-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Responsive Grid Debugging</title>
+</head>
+<body style="font-family: Arial, sans-serif; margin: 0; padding: 20px; text-align: center;">
+
+  <h1 style="margin-bottom: 20px;">Responsive Gallery</h1>
+
+  <div class="gallery" style="display: grid; grid-template-columns: 1fr; gap: 20px; padding: 10px;">
+    <div class="item" style="background-color: #3498db; color: white; padding: 20px; border-radius: 5px; font-size: 18px;">Item 1</div>
+    <div class="item" style="background-color: #3498db; color: white; padding: 20px; border-radius: 5px; font-size: 18px;">Item 2</div>
+    <div class="item" style="background-color: #3498db; color: white; padding: 20px; border-radius: 5px; font-size: 18px;">Item 3</div>
+    <div class="item" style="background-color: #3498db; color: white; padding: 20px; border-radius: 5px; font-size: 18px;">Item 4</div>
+    <div class="item" style="background-color: #3498db; color: white; padding: 20px; border-radius: 5px; font-size: 18px;">Item 5</div>
+    <div class="item" style="background-color: #3498db; color: white; padding: 20px; border-radius: 5px; font-size: 18px;">Item 6</div>
+  </div>
+
+  <style>
+    /* Medium screens (768px to 1023px) */
+    @media (min-width: 768px) and (max-width: 1023px) {
+      .gallery {
+        grid-template-columns: repeat(2, 1fr) !important; /* Fix: 2 columns */
+        gap: 20px !important; /* Fix: Prevent overlap */
+      }
+    }
+
+    /* Large screens (above 1024px) */
+    @media (min-width: 1024px) {
+      .gallery {
+        grid-template-columns: repeat(4, 1fr) !important; /* Fix: 4 columns */
+        gap: 20px !important;
+      }
+    }
+  </style>
+
+</body>
+</html>
