@@ -1,0 +1,56 @@
+<!--L2 - Creating a Fully Responsive Card Layout with Mobile-First Design-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Responsive Card Layout</title>
+</head>
+<body style="font-family: Arial, sans-serif; margin: 0; padding: 20px; text-align: center; background-color: #f4f4f4;">
+
+  <h1 style="margin-bottom: 20px;">Responsive Card Layout</h1>
+
+  <div class="card-container" style="display: grid; grid-template-columns: 1fr; gap: 20px; max-width: 1200px; margin: auto; padding: 10px;">
+    <!-- Card 1 -->
+    <div class="card" style="background: white; padding: 20px; border-radius: 10px; box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); text-align: center;">
+      <img src="https://www.photo-paysage.com/albums/userpics/10001/Cascade_-15.JPG" alt="Nature Image" style="width: 100%; border-radius: 10px;">
+      <h2 style="margin: 15px 0;">Nature Card</h2>
+      <p style="color: gray;">Experience the beauty of nature with stunning landscapes.</p>
+      <button style="background: #3498db; color: white; border: none; padding: 10px 20px; margin-top: 10px; border-radius: 5px; cursor: pointer;">Explore</button>
+    </div>
+
+    <!-- Card 2 -->
+    <div class="card" style="background: white; padding: 20px; border-radius: 10px; box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); text-align: center;">
+      <img src="https://atb-tech.com/wp-content/uploads/2017/04/New-Tech-Gadgets-for-2017.jpg" alt="Tech Image" style="width: 100%; border-radius: 10px;">
+      <h2 style="margin: 15px 0;">Tech Innovations</h2>
+      <p style="color: gray;">Discover the latest in technology and innovation.</p>
+      <button style="background: #3498db; color: white; border: none; padding: 10px 20px; margin-top: 10px; border-radius: 5px; cursor: pointer;">Discover</button>
+    </div>
+
+    <!-- Card 3 -->
+    <div class="card" style="background: white; padding: 20px; border-radius: 10px; box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); text-align: center;">
+      <img src="https://www.passright.com/wp-content/uploads/2021/08/high-angle-passport-tickets-arrangement-scaled.jpg" alt="Travel Image" style="width: 100%; border-radius: 10px;">
+      <h2 style="margin: 15px 0;">Adventure Awaits</h2>
+      <p style="color: gray;">Plan your next adventure and explore new places.</p>
+      <button style="background: #3498db; color: white; border: none; padding: 10px 20px; margin-top: 10px; border-radius: 5px; cursor: pointer;">Book Now</button>
+    </div>
+  </div>
+
+  <style>
+    /* Medium screens (600px to 1024px) */
+    @media (min-width: 600px) {
+      .card-container {
+        grid-template-columns: repeat(2, 1fr) !important; /* 2 columns */
+      }
+    }
+
+    /* Large screens (more than 1024px) */
+    @media (min-width: 1024px) {
+      .card-container {
+        grid-template-columns: repeat(3, 1fr) !important; /* 3 columns */
+      }
+    }
+  </style>
+
+</body>
+</html>
