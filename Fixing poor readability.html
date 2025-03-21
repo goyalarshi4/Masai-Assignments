@@ -1,0 +1,40 @@
+<!--L0 - Fixing poor readability-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Responsive Readability</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-size: 14px;
+            line-height: 1.5;
+            padding: 20px;
+        }
+
+        h1, p {
+            margin-bottom: 10px;
+        }
+
+        /* For screens larger than 600px */
+        @media (min-width: 600px) {
+            body {
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Welcome to Masai School</h1>
+    <p>This paragraph will have better readability on all screen sizes.</p>
+    <p>The text size and line height will adjust dynamically based on the screen width.</p>
+
+</body>
+</html>
