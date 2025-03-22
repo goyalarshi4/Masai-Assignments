@@ -1,0 +1,127 @@
+<!--Build the following page using grid-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grid Layout Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            text-align: center;
+        }
+        .container {
+            max-width: 900px;
+            margin: auto;
+        }
+        .logos {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin: 20px 0;
+        }
+        .investors {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        .card {
+            background: #f8f8f8;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .card img {
+            width: 100%;
+            border-radius: 10px;
+        }
+        .card h3 {
+            margin: 10px 0 5px;
+            font-size: 16px;
+        }
+        .card p {
+            font-size: 14px;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        
+        
+        <div class="logos">
+            <img src="https://www.masaischool.com/images/our-investors/india-q-borderless.svg" alt="India Quotient" width="100">
+            <img src="https://www.masaischool.com/images/our-investors/capria-logo.svg" alt="Unitus Ventures" width="100">
+            <img src="https://www.masaischool.com/images/our-investors/omidyar-borderless.svg" alt="Omidyar Network India" width="100">
+        </div>
+        
+        <h2>Strategic Investors</h2>
+        <div class="investors">
+            <div class="card">
+                <img src="https://masai-website-images.s3.ap-south-1.amazonaws.com/Vijay_Shekhar_Sharma_Paytm_96f52579b8.jpg" alt="Vijay Shekhar Sharma">
+                <h3>Vijay Shekhar Sharma</h3>
+                <p>Founder & CEO, Paytm</p>
+            </div>
+            <div class="card">
+                <img src="https://masai-website-images.s3.ap-south-1.amazonaws.com/Rectangle_427_637d69bb57.png" alt="Kunal Shah">
+                <h3>Kunal Shah</h3>
+                <p>Founder, CRED</p>
+            </div>
+            <div class="card">
+                <img src="https://masai-website-images.s3.ap-south-1.amazonaws.com/amrish_rau_pine_labs_144e5e587c.jpg" alt="Amrish Rau">
+                <h3>Amrish Rau</h3>
+                <p>CEO, Pine Labs</p>
+            </div>
+            <div class="card">
+                <img src="https://masai-website-images.s3.ap-south-1.amazonaws.com/Sampad_swain_Instamojo_f12bf6341e.jpg" alt="Sampad Swain">
+                <h3>Sampad Swain</h3>
+                <p>Co-Founder & CEO, Instamojo</p>
+            </div>
+            <div class="card">
+                <img src="https://masai-website-images.s3.ap-south-1.amazonaws.com/Ankush_Sachdeva_Sharechat_4e44dbbe6b.jpg">
+                <h3>Ankush Sachdeva</h3>
+                <p>Co-Founder & CEO, ShareChat</p>
+            </div>
+            <div class="card">
+                <img src="https://masai-website-images.s3.ap-south-1.amazonaws.com/bhanu_pratap_singh_sharechat_11fdd7b47a.jpg">
+                <h3>Bhanu Pratap Singh </h3>
+                <p>Co-Founder & CTO, ShareChat</p>
+            </div>
+            <div class="card">
+                <img src="https://masai-website-images.s3.ap-south-1.amazonaws.com/farid_ahsan_sharechat_1251f28141.png">
+                <h3>Farid Ahsann</h3>
+                <p>Co-Founder & COO, ShareChat</p>
+            </div>
+            <div class="card">
+                <img src="https://masai-website-images.s3.ap-south-1.amazonaws.com/Amit_Kumar_Agarwal_Nobroker_a8a279ad91.jpg">
+                <h3>Amit Kumar Agarwal</h3>
+                <p>Founder & CEO, NOBROKER</p>
+            </div>
+            <div class="card">
+                <img src="https://masai-website-images.s3.ap-south-1.amazonaws.com/Akhil_Gupta_Nobroker_539cd97f6c.jpg">
+                <h3>Akhil Gupta</h3>
+                <p>Co-Founder & CTO, Instamojo</p>
+            </div>
+            <div class="card">
+                <img src="https://masai-website-images.s3.ap-south-1.amazonaws.com/saurbh_garg_nobroker_c0c71cc431.jpeg">
+                <h3>Saurabh Garg</h3>
+                <p>Co-Founder & CBO, Instamojo</p>
+            </div>
+            <div class="card">
+                <img src="https://masai-website-images.s3.ap-south-1.amazonaws.com/Vipin_Pathak_Care24_acd02cd173.jpg">
+                <h3>Vipin Pathak</h3>
+                <p>Co-Founder & CBO, CARE24</p>
+            </div>
+            <div class="card">
+                <img src="https://masai-website-images.s3.ap-south-1.amazonaws.com/Ramakant_Sharma_livespace_0308e3627d.jpg">
+                <h3>Ramakant Sharma</h3>
+                <p>Founder, LIVESPACE</p>
+            </div>
+
+        </div>
+    </div>
+</body>
+</html>
