@@ -1,0 +1,37 @@
+<!--L0 - Understanding and Navigating the DOM-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>L0 - Understanding and Navigating the DOM</title>
+</head>
+<body>
+
+    <h1 id="main-heading">Hello, World!</h1>
+
+    <p>This is the first paragraph.</p>
+    <p>This is the second paragraph.</p>
+    <p>This is the third paragraph.</p>
+
+    <div class="container">
+        <p>Inside a container div.</p>
+    </div>
+
+    <script>
+        // Select the <h1> element by its id and change its text content
+        document.getElementById("main-heading").textContent = "Welcome to the DOM World!";
+
+        // Select all <p> elements and change their text color to blue
+        let paragraphs = document.getElementsByTagName("p");
+        for (let i = 0; i < paragraphs.length; i++) {
+            paragraphs[i].style.color = "blue";
+        }
+
+        // Select the first <div> with class "container" and change its background color
+        document.querySelector(".container").style.backgroundColor = "yellow";
+    </script>
+
+</body>
+</html>

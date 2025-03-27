@@ -1,0 +1,42 @@
+<!--L0 - Basic DOM Manipulation-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>L0 - Basic DOM Manipulation</title>
+</head>
+<body>
+
+    <ul id="item-list">
+        <li style="font-weight: bold; color: blue;">Item 1</li>
+        <li style="font-style: italic; color: red;">Item 2</li>
+        <li style="font-weight: bold; color: blue;">Item 3</li>
+    </ul>
+
+    <button id="add-item">Add Item</button>
+
+    <script>
+        document.getElementById("add-item").addEventListener("click", function() {
+            let ul = document.querySelector("#item-list");
+            let newItem = document.createElement("li");
+            let itemCount = ul.getElementsByTagName("li").length + 1; // Get the next item number
+            
+            newItem.textContent = "New Item " + itemCount;
+
+            // Apply styles based on odd/even sequence number
+            if (itemCount % 2 === 1) {
+                newItem.style.fontWeight = "bold";
+                newItem.style.color = "blue";
+            } else {
+                newItem.style.fontStyle = "italic";
+                newItem.style.color = "red";
+            }
+
+            ul.appendChild(newItem);
+        });
+    </script>
+
+</body>
+</html>

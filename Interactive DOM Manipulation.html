@@ -1,0 +1,65 @@
+<!--L1 - Interactive DOM Manipulation-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>L1 - Interactive DOM Manipulation</title>
+</head>
+<body>
+
+    <h2>Interactive DOM Manipulation</h2>
+
+    <!-- Input for background color -->
+    <label for="color-input">Enter a color name:</label>
+    <input type="text" id="color-input" placeholder="e.g., red, blue, green">
+
+    <!-- Input for text content -->
+    <label for="text-input">Enter text:</label>
+    <input type="text" id="text-input" placeholder="Enter new text">
+
+    <!-- Buttons -->
+    <button id="change-bg">Change Background</button>
+    <button id="update-text">Update Text</button>
+
+    <!-- Div to be manipulated -->
+    <div id="content-box" style="width: 300px; height: 100px; background-color: lightgray; text-align: center; padding: 20px; margin-top: 10px;">
+        This is the initial text.
+    </div>
+
+    <script>
+        // Function to change background color
+        document.getElementById("change-bg").addEventListener("click", function() {
+            let colorInput = document.getElementById("color-input").value.trim();
+            let contentBox = document.getElementById("content-box");
+
+            // Create a temporary element to test color validity
+            let isValidColor = (color) => {
+                let temp = document.createElement("div");
+                temp.style.color = color;
+                return temp.style.color !== "";
+            };
+
+            if (isValidColor(colorInput)) {
+                contentBox.style.backgroundColor = colorInput;
+            } else {
+                alert("Invalid color name!");
+            }
+        });
+
+        // Function to update text content
+        document.getElementById("update-text").addEventListener("click", function() {
+            let textInput = document.getElementById("text-input").value.trim();
+            let contentBox = document.getElementById("content-box");
+
+            if (textInput !== "") {
+                contentBox.textContent = textInput;
+            } else {
+                alert("Please enter some text!");
+            }
+        });
+    </script>
+
+</body>
+</html>
