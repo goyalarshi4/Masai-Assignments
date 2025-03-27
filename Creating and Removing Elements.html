@@ -1,0 +1,42 @@
+<!--L0 - Creating and Removing Elements-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DOM Manipulation</title>
+    <style>
+        #container {
+            margin-top: 20px;
+            padding: 10px;
+            border: 1px solid black;
+        }
+    </style>
+</head>
+<body>
+    <button id="addBtn">Add Paragraph</button>
+    <button id="removeBtn">Remove Last Paragraph</button>
+    <div id="container"></div>
+
+    <script>
+        // Selecting elements
+        const addBtn = document.getElementById("addBtn");
+        const removeBtn = document.getElementById("removeBtn");
+        const container = document.getElementById("container");
+
+        // Function to add a new paragraph
+        addBtn.addEventListener("click", function () {
+            const p = document.createElement("p"); // Create paragraph
+            p.textContent = "This is a new paragraph."; // Set text
+            container.appendChild(p); // Append to div
+        });
+
+        // Function to remove the last paragraph
+        removeBtn.addEventListener("click", function () {
+            if (container.lastChild) { // Check if there is a paragraph
+                container.removeChild(container.lastChild); // Remove last paragraph
+            }
+        });
+    </script>
+</body>
+</html>

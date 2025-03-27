@@ -1,0 +1,73 @@
+<!--L1 - Event Propagation Exploration-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event Propagation</title>
+    <style>
+        .outer {
+            width: 300px;
+            height: 300px;
+            background-color: lightcoral;
+            padding: 20px;
+        }
+        .middle {
+            width: 200px;
+            height: 200px;
+            background-color: lightblue;
+            padding: 20px;
+        }
+        .inner {
+            width: 100px;
+            height: 100px;
+            background-color: lightgreen;
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="outer" id="outerDiv">
+        Outer Div
+        <div class="middle" id="middleDiv">
+            Middle Div
+            <div class="inner" id="innerDiv">
+                Inner Div
+                <button id="innerButton">Click Me</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Function to handle event propagation
+        function handleClick(event) {
+            alert("Clicked: " + event.currentTarget.id);
+        }
+
+        // Select elements
+        const outerDiv = document.getElementById("outerDiv");
+        const middleDiv = document.getElementById("middleDiv");
+        const innerDiv = document.getElementById("innerDiv");
+        const innerButton = document.getElementById("innerButton");
+
+        // Event listeners in bubbling phase (default)
+        outerDiv.addEventListener("click", handleClick);
+        middleDiv.addEventListener("click", handleClick);
+        innerDiv.addEventListener("click", handleClick);
+        innerButton.addEventListener("click", function(event) {
+            alert("Clicked: Inner Button");
+
+            // Stop event propagation
+            event.stopPropagation();
+        });
+
+        // Event listeners in capturing phase (useCapture = true)
+        outerDiv.addEventListener("click", handleClick, true);
+        middleDiv.addEventListener("click", handleClick, true);
+        innerDiv.addEventListener("click", handleClick, true);
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,46 @@
+<!--L1 - Debugging: Task List with Bugs-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Task List</title>
+</head>
+<body>
+  <input id="taskInput" type="text" placeholder="Enter task">
+  <button id="addTask">Add Task</button>
+  <ul id="taskList"></ul>
+
+  <script>
+    // Selecting elements
+    const addTaskButton = document.getElementById('addTask');
+    const taskInput = document.getElementById('taskInput');
+    const taskList = document.getElementById('taskList');
+
+    addTaskButton.onclick = function () {
+      const taskText = taskInput.value.trim(); // Trim to prevent empty spaces
+
+      // Prevent adding empty tasks
+      if (taskText === "") {
+        alert("Please enter a valid task.");
+        return;
+      }
+
+      // Create new <li> element
+      const newTask = document.createElement('li');
+      newTask.textContent = taskText;
+
+      // Append new task to the list
+      taskList.appendChild(newTask); // ✅ Fixed Issue 1: Changed `.append()` to `.appendChild()`
+
+      // Clear input field after adding a task
+      taskInput.value = "";
+    };
+
+    // Event delegation for removing tasks
+    taskList.onclick = function (e) {
+      if (e.target.tagName === 'LI') { // ✅ Fixed Issue 2: Corrected `e.tagName` to `e.target.tagName`
+        e.target.remove();
+      }
+    };
+  </script>
+</body>
+</html>

@@ -1,0 +1,39 @@
+<!--L0 - Traversing the DOM: Parent and Sibling Navigation-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DOM Traversal</title>
+</head>
+<body>
+    <div id="container">
+        <ul id="list">
+            <li id="item1">Item 1</li>
+            <li id="item2">Item 2</li>
+            <li id="item3">Item 3</li>
+        </ul>
+    </div>
+
+    <script>
+        // Select "Item 2"
+        const item2 = document.getElementById("item2");
+
+        // Add click event listener
+        item2.addEventListener("click", function () {
+            // Display the parent node's text content in an alert
+            alert("Parent Content: " + item2.parentNode.textContent.trim());
+
+            // Log previous and next sibling text content to the console
+            if (item2.previousElementSibling) {
+                console.log("Previous Sibling: " + item2.previousElementSibling.textContent);
+            }
+
+            if (item2.nextElementSibling) {
+                console.log("Next Sibling: " + item2.nextElementSibling.textContent);
+            }
+        });
+    </script>
+</body>
+</html>
