@@ -1,0 +1,97 @@
+<!--L1 - Enhanced Todo List with localStorage and Search-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enhanced Todo List</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            text-align: center;
+        }
+        input, button {
+            margin: 5px;
+            padding: 10px;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px;
+            border: 1px solid #ddd;
+            margin-top: 5px;
+        }
+        .completed {
+            text-decoration: line-through;
+            color: gray;
+        }
+    </style>
+</head>
+<body>
+    <h2>Todo List</h2>
+    <input type="text" id="taskInput" placeholder="Enter a task">
+    <button onclick="addTask()">Add Task</button>
+    <br>
+    <input type="text" id="searchInput" placeholder="Search tasks" oninput="filterTasks()">
+    <ul id="taskList"></ul>
+
+    <script>
+        let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+
+        function saveTasks() {
+            localStorage.setItem("tasks", JSON.stringify(tasks));
+        }
+
+        function renderTasks(filteredTasks = tasks) {
+            const taskList = document.getElementById("taskList");
+            taskList.innerHTML = "";
+
+            filteredTasks.forEach(task => {
+                const li = document.createElement("li");
+                li.innerHTML = `
+                    <span class="${task.completed ? 'completed' : ''}" onclick="toggleComplete(${task.id})">${task.text}</span>
+                    <button onclick="removeTask(${task.id})">❌</button>
+                `;
+                taskList.appendChild(li);
+            });
+        }
+
+        function addTask() {
+            const taskInput = document.getElementById("taskInput");
+            const text = taskInput.value.trim();
+            if (!text) return alert("Task cannot be empty!");
+            
+            const newTask = { id: Date.now(), text, completed: false };
+            tasks.push(newTask);
+            saveTasks();
+            renderTasks();
+            taskInput.value = "";
+        }
+
+        function toggleComplete(id) {
+            tasks = tasks.map(task => task.id === id ? { ...task, completed: !task.completed } : task);
+            saveTasks();
+            renderTasks();
+        }
+
+        function removeTask(id) {
+            tasks = tasks.filter(task => task.id !== id);
+            saveTasks();
+            renderTasks();
+        }
+
+        function filterTasks() {
+            const query = document.getElementById("searchInput").value.toLowerCase();
+            const filtered = tasks.filter(task => task.text.toLowerCase().includes(query));
+            renderTasks(filtered);
+        }
+
+        renderTasks();
+    </script>
+</body>
+</html>
