@@ -1,0 +1,80 @@
+<!--L0 - Create a New Post-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create a New Post</title>
+</head>
+<body>
+
+    <h1>Create a New Post</h1>
+
+    <!-- Form for creating a new post -->
+    <form id="postForm">
+        <label for="title">Title:</label>
+        <input type="text" id="title" name="title" required><br><br>
+
+        <label for="body">Body:</label>
+        <textarea id="body" name="body" required></textarea><br><br>
+
+        <button type="submit">Submit</button>
+    </form>
+
+    <!-- Section to display the server's response -->
+    <div id="response"></div>
+
+    <script>
+        // Get the form and response section elements
+        const form = document.getElementById('postForm');
+        const responseSection = document.getElementById('response');
+
+        // Add submit event listener to the form
+        form.addEventListener('submit', function(event) {
+            event.preventDefault();  // Prevent the default form submission
+
+            // Get form data
+            const title = document.getElementById('title').value;
+            const body = document.getElementById('body').value;
+
+            // Check if both fields are non-empty
+            if (title.trim() === '' || body.trim() === '') {
+                alert('Both fields must be filled out!');
+                return;
+            }
+
+            // Create the post data to send in the POST request
+            const postData = {
+                title: title,
+                body: body,
+                userId: 1  // Placeholder userId (you can change it if necessary)
+            };
+
+            // Send a POST request to the JSONPlaceholder API
+            fetch('https://jsonplaceholder.typicode.com/posts', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(postData)
+            })
+            .then(response => response.json())  // Parse the JSON response
+            .then(data => {
+                // Display the server's response (new post ID, title, and body)
+                const responseHTML = `
+                    <h2>Post Created Successfully!</h2>
+                    <p><strong>Post ID:</strong> ${data.id}</p>
+                    <p><strong>Title:</strong> ${data.title}</p>
+                    <p><strong>Body:</strong> ${data.body}</p>
+                `;
+                responseSection.innerHTML = responseHTML;  // Display the response
+            })
+            .catch(error => {
+                console.error('Error creating post:', error);
+                alert('An error occurred while creating the post.');
+            });
+        });
+    </script>
+
+</body>
+</html>

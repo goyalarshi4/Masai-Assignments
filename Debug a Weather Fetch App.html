@@ -1,0 +1,116 @@
+<!--L1 - Debug a Weather Fetch App-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather App</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f1f1f1;
+            margin: 0;
+        }
+        .container {
+            text-align: center;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        input {
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+        button {
+            padding: 10px 20px;
+            border: none;
+            background-color: #3498db;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #2980b9;
+        }
+        #weather {
+            margin-top: 20px;
+        }
+        .error-message {
+            color: red;
+            font-size: 18px;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Weather App</h1>
+        <form id="weatherForm">
+            <input type="text" id="city" placeholder="Enter city name" required>
+            <button type="submit">Get Weather</button>
+        </form>
+
+        <div id="weather"></div>
+        <div id="error" class="error-message"></div>
+    </div>
+
+    <script>
+        const weatherForm = document.getElementById('weatherForm');
+        const cityInput = document.getElementById('city');
+        const weatherDisplay = document.getElementById('weather');
+        const errorDisplay = document.getElementById('error');
+
+        // Event listener for form submission
+        weatherForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const city = cityInput.value.trim();
+            if (city) {
+                fetchWeather(city);
+            } else {
+                errorDisplay.textContent = "Please enter a valid city name.";
+                weatherDisplay.textContent = '';
+            }
+        });
+
+        // Async function to fetch weather data
+        async function fetchWeather(city) {
+            const apiKey = 'YOUR_API_KEY';  // Replace with your OpenWeather API key
+            const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`; // 'metric' for Celsius
+
+            try {
+                const response = await fetch(url);
+
+                // Check if the response is OK (status code 200)
+                if (!response.ok) {
+                    throw new Error('City not found');
+                }
+
+                const data = await response.json();
+
+                // Clear any previous error message
+                errorDisplay.textContent = '';
+
+                // Display weather information
+                weatherDisplay.innerHTML = `
+                    <h2>Weather in ${data.name}</h2>
+                    <p><strong>Temperature:</strong> ${data.main.temp}°C</p>
+                    <p><strong>Description:</strong> ${data.weather[0].description}</p>
+                `;
+            } catch (error) {
+                // Display error message if something goes wrong
+                errorDisplay.textContent = error.message === 'City not found' ? 'Invalid city name. Please try again.' : 'Failed to fetch weather. Please try again later.';
+                weatherDisplay.textContent = '';
+            }
+        }
+    </script>
+
+</body>
+</html>
