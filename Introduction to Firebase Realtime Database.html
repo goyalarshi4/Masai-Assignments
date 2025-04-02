@@ -1,0 +1,76 @@
+<!--L0 - Introduction to Firebase Realtime Database-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Firebase Users</title>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js"></script>
+</head>
+<body style="font-family: Arial, sans-serif; padding: 20px; text-align: center;">
+
+    <h2>User List from Firebase</h2>
+
+    <table border="1" style="width: 100%; max-width: 600px; margin: auto; border-collapse: collapse;">
+        <thead>
+            <tr style="background-color: #f4f4f4;">
+                <th style="padding: 10px;">Name</th>
+                <th style="padding: 10px;">Email</th>
+            </tr>
+        </thead>
+        <tbody id="userTable"></tbody>
+    </table>
+
+    <p id="message" style="color: red; font-weight: bold; margin-top: 15px;"></p>
+
+    <script>
+        // Firebase configuration
+        const firebaseConfig = {
+            apiKey: "YOUR_API_KEY",
+            authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
+            databaseURL: "https://YOUR_PROJECT_ID.firebaseio.com",
+            projectId: "YOUR_PROJECT_ID",
+            storageBucket: "YOUR_PROJECT_ID.appspot.com",
+            messagingSenderId: "YOUR_SENDER_ID",
+            appId: "YOUR_APP_ID"
+        };
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const database = firebase.database();
+
+        // Fetch Users from Firebase
+        function fetchUsers() {
+            const userTable = document.getElementById("userTable");
+            const message = document.getElementById("message");
+
+            database.ref("users").once("value")
+            .then(snapshot => {
+                userTable.innerHTML = ""; // Clear table before inserting new data
+
+                const users = snapshot.val();
+                if (!users) {
+                    message.textContent = "No users found.";
+                    return;
+                }
+
+                Object.values(users).forEach(user => {
+                    const row = `<tr>
+                        <td style="padding: 10px; border: 1px solid #ddd;">${user.name}</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">${user.email}</td>
+                    </tr>`;
+                    userTable.innerHTML += row;
+                });
+            })
+            .catch(error => {
+                message.textContent = "Error fetching users: " + error.message;
+            });
+        }
+
+        // Fetch users on page load
+        fetchUsers();
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,67 @@
+<!--User Registration Page-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Registration</title>
+</head>
+<body style="font-family: Arial, sans-serif; padding: 20px; text-align: center;">
+
+    <h2>User Registration</h2>
+
+    <form id="registrationForm" style="display: inline-block; text-align: left; max-width: 300px; width: 100%;">
+        <label for="name">Name:</label>
+        <input type="text" id="name" required style="width: 100%; padding: 8px; margin: 5px 0;">
+
+        <label for="email">Email:</label>
+        <input type="email" id="email" required style="width: 100%; padding: 8px; margin: 5px 0;">
+
+        <label for="password">Password:</label>
+        <input type="password" id="password" required style="width: 100%; padding: 8px; margin: 5px 0;">
+
+        <button type="submit" style="width: 100%; padding: 10px; margin-top: 10px; background-color: blue; color: white; border: none; cursor: pointer;">
+            Register
+        </button>
+    </form>
+
+    <p id="message" style="margin-top: 15px; font-weight: bold;"></p>
+
+    <script>
+        document.getElementById('registrationForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent form from refreshing
+
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const message = document.getElementById('message');
+
+            if (!name || !email || !password) {
+                message.style.color = 'red';
+                message.textContent = "All fields are required!";
+                return;
+            }
+
+            const userData = { name, email, password };
+
+            fetch('https://mockapi.io/users', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(userData)
+            })
+            .then(response => response.json())
+            .then(data => {
+                message.style.color = 'green';
+                message.textContent = "Registration successful!";
+                document.getElementById('registrationForm').reset();
+            })
+            .catch(error => {
+                message.style.color = 'red';
+                message.textContent = "Error: " + error.message;
+                console.error("Registration failed:", error);
+            });
+        });
+    </script>
+
+</body>
+</html>

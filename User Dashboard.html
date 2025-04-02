@@ -1,0 +1,104 @@
+<!--User Dashboard-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Dashboard</title>
+</head>
+<body style="font-family: Arial, sans-serif; padding: 20px; text-align: center;">
+
+    <h2>User Dashboard</h2>
+
+    <!-- Form to Add a New User -->
+    <h3>Add a New User</h3>
+    <form id="userForm" style="display: inline-block; text-align: left; max-width: 300px; width: 100%;">
+        <label for="name">Name:</label>
+        <input type="text" id="name" required style="width: 100%; padding: 8px; margin: 5px 0;">
+
+        <label for="email">Email:</label>
+        <input type="email" id="email" required style="width: 100%; padding: 8px; margin: 5px 0;">
+
+        <button type="submit" style="width: 100%; padding: 10px; margin-top: 10px; background-color: blue; color: white; border: none; cursor: pointer;">
+            Add User
+        </button>
+    </form>
+
+    <p id="message" style="margin-top: 15px; font-weight: bold;"></p>
+
+    <!-- User List -->
+    <h3>Registered Users</h3>
+    <ul id="userList" style="list-style-type: none; padding: 0;"></ul>
+
+    <script>
+        const apiUrl = 'https://mockapi.io/users';
+        const userList = document.getElementById('userList');
+        const message = document.getElementById('message');
+
+        // Function to fetch and display users
+        function fetchUsers() {
+            fetch(apiUrl)
+            .then(response => response.json())
+            .then(users => {
+                userList.innerHTML = ""; // Clear existing list
+                users.forEach(user => {
+                    const li = document.createElement('li');
+                    li.textContent = `${user.name} - ${user.email}`;
+                    li.style.border = "1px solid #ddd";
+                    li.style.padding = "8px";
+                    li.style.margin = "5px";
+                    userList.appendChild(li);
+                });
+            })
+            .catch(error => {
+                message.style.color = 'red';
+                message.textContent = "Error fetching users: " + error.message;
+            });
+        }
+
+        // Function to add a new user
+        document.getElementById('userForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent form refresh
+
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+
+            if (!name || !email) {
+                message.style.color = 'red';
+                message.textContent = "All fields are required!";
+                return;
+            }
+
+            const userData = { name, email };
+
+            fetch(apiUrl, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(userData)
+            })
+            .then(response => response.json())
+            .then(newUser => {
+                message.style.color = 'green';
+                message.textContent = "User added successfully!";
+                document.getElementById('userForm').reset();
+
+                // Update the user list dynamically
+                const li = document.createElement('li');
+                li.textContent = `${newUser.name} - ${newUser.email}`;
+                li.style.border = "1px solid #ddd";
+                li.style.padding = "8px";
+                li.style.margin = "5px";
+                userList.appendChild(li);
+            })
+            .catch(error => {
+                message.style.color = 'red';
+                message.textContent = "Error adding user: " + error.message;
+            });
+        });
+
+        // Fetch users on page load
+        fetchUsers();
+    </script>
+
+</body>
+</html>
