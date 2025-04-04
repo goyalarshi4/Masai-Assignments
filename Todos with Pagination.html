@@ -1,0 +1,73 @@
+<!--Todos with Pagination-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Paginated Todos</title>
+</head>
+<body style="font-family: Arial, sans-serif; text-align: center; padding: 20px;">
+
+  <h2>Todos with Pagination</h2>
+  <button onclick="fetchTodos(1)" style="padding: 10px 20px; margin-bottom: 20px;">Fetch Todos</button>
+  
+  <div id="todosContainer" style="margin-bottom: 20px;"></div>
+
+  <div id="paginationButtons" style="display: flex; flex-wrap: wrap; justify-content: center; gap: 5px;"></div>
+
+  <script>
+    const todosContainer = document.getElementById("todosContainer");
+    const paginationButtons = document.getElementById("paginationButtons");
+    const todosPerPage = 10;
+    const totalTodos = 200;
+
+    function fetchTodos(page) {
+      const start = (page - 1) * todosPerPage;
+
+      fetch(`https://jsonplaceholder.typicode.com/todos?_start=${start}&_limit=${todosPerPage}`)
+        .then(response => response.json())
+        .then(todos => {
+          todosContainer.innerHTML = "";
+          
+          todos.forEach(todo => {
+            const todoElement = document.createElement("div");
+            todoElement.style.margin = "10px auto";
+            todoElement.style.padding = "10px";
+            todoElement.style.width = "400px";
+            todoElement.style.boxShadow = "0 0 5px rgba(0,0,0,0.2)";
+            todoElement.style.borderRadius = "5px";
+            todoElement.style.textAlign = "left";
+            todoElement.innerHTML = `
+              ${todo.title}
+              <input type="checkbox" ${todo.completed ? "checked" : ""} />
+            `;
+            todosContainer.appendChild(todoElement);
+          });
+
+          createPagination(page);
+        })
+        .catch(error => {
+          todosContainer.innerHTML = "Failed to fetch todos.";
+          console.error(error);
+        });
+    }
+
+    function createPagination(currentPage) {
+      paginationButtons.innerHTML = "";
+      const totalPages = Math.ceil(totalTodos / todosPerPage);
+
+      for (let i = 1; i <= totalPages; i++) {
+        const btn = document.createElement("button");
+        btn.textContent = i;
+        btn.style.padding = "8px 12px";
+        btn.style.border = "1px solid #ccc";
+        btn.style.background = i === currentPage ? "#007bff" : "#fff";
+        btn.style.color = i === currentPage ? "#fff" : "#000";
+        btn.style.cursor = "pointer";
+        btn.onclick = () => fetchTodos(i);
+        paginationButtons.appendChild(btn);
+      }
+    }
+  </script>
+</body>
+</html>
