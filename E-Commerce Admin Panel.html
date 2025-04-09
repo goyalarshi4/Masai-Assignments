@@ -1,0 +1,284 @@
+<!--E-Commerce Admin Panel-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Role-Based Auth | E-Commerce Panel</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f5f7fa;
+      margin: 0;
+      padding: 0;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 450px;
+      margin: 40px auto;
+      background: #fff;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    }
+
+    h2 {
+      text-align: center;
+      color: #333;
+      margin-bottom: 20px;
+    }
+
+    input, select, button {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      font-size: 16px;
+    }
+
+    button {
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #388e3c;
+    }
+
+    .dashboard {
+      max-width: 900px;
+    }
+
+    .product {
+      background: #f9f9f9;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      padding: 15px;
+      margin: 10px 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .product img {
+      height: 60px;
+      border-radius: 4px;
+    }
+
+    .product button {
+      background-color: #e53935;
+    }
+
+    .product button:hover {
+      background-color: #c62828;
+    }
+
+    .dashboard h2 {
+      margin-bottom: 10px;
+      color: #444;
+    }
+
+    @media(max-width: 600px) {
+      .product {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .product img {
+        margin-top: 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div id="register" class="container">
+    <h2>Register</h2>
+    <input type="email" id="regEmail" placeholder="Email" />
+    <input type="password" id="regPassword" placeholder="Password" />
+    <select id="regRole">
+      <option value="user">User</option>
+      <option value="admin">Admin</option>
+    </select>
+    <button onclick="register()">Register</button>
+  </div>
+
+  <div id="login" class="container" style="display:none;">
+    <h2>Login</h2>
+    <input type="email" id="logEmail" placeholder="Email" />
+    <input type="password" id="logPassword" placeholder="Password" />
+    <button onclick="login()">Login</button>
+  </div>
+
+  <div id="adminDashboard" class="container dashboard" style="display:none;">
+    <h2>Admin Dashboard</h2>
+    <input type="text" id="title" placeholder="Product Title" />
+    <input type="number" id="price" placeholder="Price" />
+    <input type="text" id="image" placeholder="Image URL" />
+    <button onclick="addProduct()">Add Product</button>
+    <div id="productList"></div>
+  </div>
+
+  <div id="userDashboard" class="container dashboard" style="display:none;">
+    <h2>User Dashboard</h2>
+    <div id="userProductList"></div>
+  </div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-app.js";
+    import {
+      getAuth,
+      createUserWithEmailAndPassword,
+      signInWithEmailAndPassword
+    } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-auth.js";
+    import {
+      getDatabase,
+      ref,
+      set,
+      push,
+      get,
+      child,
+      onValue,
+      remove
+    } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-database.js";
+
+    const firebaseConfig = {
+      apiKey: "YOUR_API_KEY",
+      authDomain: "YOUR_AUTH_DOMAIN",
+      projectId: "YOUR_PROJECT_ID",
+      databaseURL: "YOUR_DB_URL",
+      storageBucket: "YOUR_STORAGE_BUCKET",
+      messagingSenderId: "YOUR_MSG_SENDER_ID",
+      appId: "YOUR_APP_ID"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth();
+    const db = getDatabase();
+
+    const register = () => {
+      const email = document.getElementById("regEmail").value;
+      const password = document.getElementById("regPassword").value;
+      const role = document.getElementById("regRole").value;
+
+      createUserWithEmailAndPassword(auth, email, password)
+        .then((userCred) => {
+          const uid = userCred.user.uid;
+          set(ref(db, 'users/' + uid), {
+            email,
+            role
+          }).then(() => {
+            alert("Registration Successful! Please log in.");
+            document.getElementById("register").style.display = "none";
+            document.getElementById("login").style.display = "block";
+          });
+        }).catch((err) => alert(err.message));
+    };
+
+    const login = () => {
+      const email = document.getElementById("logEmail").value;
+      const password = document.getElementById("logPassword").value;
+
+      signInWithEmailAndPassword(auth, email, password)
+        .then((userCred) => {
+          const uid = userCred.user.uid;
+          get(ref(db, 'users/' + uid)).then((snapshot) => {
+            const role = snapshot.val().role;
+            sessionStorage.setItem("role", role);
+            sessionStorage.setItem("uid", uid);
+
+            if (role === "admin") {
+              showAdminDashboard();
+            } else {
+              showUserDashboard();
+            }
+          });
+        }).catch(() => {
+          alert("Incorrect email or password!");
+        });
+    };
+
+    const addProduct = () => {
+      const title = document.getElementById("title").value;
+      const price = document.getElementById("price").value;
+      const image = document.getElementById("image").value;
+
+      const newRef = push(ref(db, 'products'));
+      set(newRef, { title, price, image });
+    };
+
+    const showAdminDashboard = () => {
+      document.getElementById("register").style.display = "none";
+      document.getElementById("login").style.display = "none";
+      document.getElementById("adminDashboard").style.display = "block";
+
+      const productList = document.getElementById("productList");
+      productList.innerHTML = "";
+
+      onValue(ref(db, 'products'), (snapshot) => {
+        productList.innerHTML = "";
+        snapshot.forEach((child) => {
+          const data = child.val();
+          const div = document.createElement("div");
+          div.className = "product";
+          div.innerHTML = `
+            <div>
+              <b>${data.title}</b><br>
+              $${data.price}
+            </div>
+            <img src="${data.image}" />
+            <button onclick="deleteProduct('${child.key}')">Delete</button>
+          `;
+          productList.appendChild(div);
+        });
+      });
+    };
+
+    const showUserDashboard = () => {
+      document.getElementById("register").style.display = "none";
+      document.getElementById("login").style.display = "none";
+      document.getElementById("userDashboard").style.display = "block";
+
+      const userProductList = document.getElementById("userProductList");
+      userProductList.innerHTML = "";
+
+      onValue(ref(db, 'products'), (snapshot) => {
+        userProductList.innerHTML = "";
+        snapshot.forEach((child) => {
+          const data = child.val();
+          const div = document.createElement("div");
+          div.className = "product";
+          div.innerHTML = `
+            <div>
+              <b>${data.title}</b><br>
+              $${data.price}
+            </div>
+            <img src="${data.image}" />
+          `;
+          userProductList.appendChild(div);
+        });
+      });
+    };
+
+    window.deleteProduct = (id) => {
+      remove(ref(db, 'products/' + id));
+    };
+
+    // Auto-login check
+    window.onload = () => {
+      const role = sessionStorage.getItem("role");
+      if (role === "admin") showAdminDashboard();
+      else if (role === "user") showUserDashboard();
+    };
+  </script>
+</body>
+</html>

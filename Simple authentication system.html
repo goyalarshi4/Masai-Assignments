@@ -1,0 +1,264 @@
+<!--Simple authentication system -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Auth & Dashboard App</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #f2f2f2;
+      margin: 0;
+      padding: 0;
+    }
+
+    header {
+      background-color: #333;
+      color: white;
+      padding: 15px;
+      text-align: center;
+    }
+
+    nav {
+      text-align: center;
+      margin: 20px 0;
+    }
+
+    nav button {
+      padding: 10px 20px;
+      margin: 5px;
+      border: none;
+      background-color: #007BFF;
+      color: white;
+      cursor: pointer;
+      border-radius: 5px;
+    }
+
+    nav button:hover {
+      background-color: #0056b3;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: 20px auto;
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    input {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    button.submit-btn {
+      width: 100%;
+      padding: 10px;
+      background-color: #28a745;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    button.submit-btn:hover {
+      background-color: #218838;
+    }
+
+    .section {
+      display: none;
+    }
+
+    .visible {
+      display: block;
+    }
+
+    .product-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      justify-content: center;
+    }
+
+    .product {
+      background: #fafafa;
+      padding: 15px;
+      border-radius: 10px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      width: 200px;
+      text-align: center;
+    }
+
+    .product img {
+      height: 150px;
+      object-fit: contain;
+    }
+
+    .product h4 {
+      font-size: 16px;
+      margin: 10px 0 5px;
+    }
+
+    .product p {
+      font-size: 14px;
+      color: #555;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Login, Register & Dashboard App</h1>
+  </header>
+
+  <nav>
+    <button onclick="showSection('registerSection')">Register</button>
+    <button onclick="showSection('loginSection')">Login</button>
+    <button onclick="showSection('dashboardSection')">Dashboard</button>
+    <button onclick="logout()">Logout</button>
+  </nav>
+
+  <div class="container">
+
+    <!-- Register Section -->
+    <div id="registerSection" class="section">
+      <h2>Register</h2>
+      <input type="text" id="regName" placeholder="Full Name" required>
+      <input type="email" id="regEmail" placeholder="Email" required>
+      <input type="password" id="regPassword" placeholder="Password" required>
+      <button class="submit-btn" onclick="register()">Register</button>
+    </div>
+
+    <!-- Login Section -->
+    <div id="loginSection" class="section">
+      <h2>Login</h2>
+      <input type="email" id="loginEmail" placeholder="Email" required>
+      <input type="password" id="loginPassword" placeholder="Password" required>
+      <button class="submit-btn" onclick="login()">Login</button>
+    </div>
+
+    <!-- Dashboard Section -->
+    <div id="dashboardSection" class="section">
+      <h2>Product Dashboard</h2>
+      <div id="products" class="product-grid"></div>
+    </div>
+  </div>
+
+  <!-- Firebase -->
+  <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-database.js"></script>
+
+  <script>
+    // 🔐 Firebase Config (Replace with your actual credentials)
+    const firebaseConfig = {
+      apiKey: "YOUR_API_KEY",
+      authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
+      databaseURL: "https://YOUR_PROJECT_ID.firebaseio.com",
+      projectId: "YOUR_PROJECT_ID",
+      storageBucket: "YOUR_PROJECT_ID.appspot.com",
+      messagingSenderId: "SENDER_ID",
+      appId: "APP_ID"
+    };
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.database();
+
+    // Show Section
+    function showSection(id) {
+      document.querySelectorAll('.section').forEach(sec => sec.classList.remove('visible'));
+      document.getElementById(id).classList.add('visible');
+
+      if (id === 'dashboardSection') {
+        if (localStorage.getItem("loggedIn") === "true") {
+          loadProducts();
+        } else {
+          alert("You must log in first!");
+          showSection('loginSection');
+        }
+      }
+    }
+
+    // Register
+    function register() {
+      const name = document.getElementById('regName').value;
+      const email = document.getElementById('regEmail').value;
+      const password = document.getElementById('regPassword').value;
+
+      if (!name || !email || !password) {
+        alert("Please fill in all fields.");
+        return;
+      }
+
+      const userId = Date.now();
+      db.ref('users/' + userId).set({ name, email, password })
+        .then(() => {
+          alert("Registration Successful! Please log in.");
+          showSection('loginSection');
+        });
+    }
+
+    // Login
+    function login() {
+      const email = document.getElementById('loginEmail').value;
+      const password = document.getElementById('loginPassword').value;
+
+      db.ref('users').once('value', snapshot => {
+        const users = snapshot.val();
+        let match = false;
+
+        for (let uid in users) {
+          if (users[uid].email === email && users[uid].password === password) {
+            localStorage.setItem("loggedIn", "true");
+            match = true;
+            break;
+          }
+        }
+
+        if (match) {
+          showSection('dashboardSection');
+        } else {
+          alert("Wrong credentials! Try again.");
+        }
+      });
+    }
+
+    // Load Products
+    function loadProducts() {
+      fetch('https://fakestoreapi.com/products')
+        .then(res => res.json())
+        .then(products => {
+          const container = document.getElementById('products');
+          container.innerHTML = '';
+          products.forEach(p => {
+            const div = document.createElement('div');
+            div.classList.add('product');
+            div.innerHTML = `
+              <img src="${p.image}" alt="">
+              <h4>${p.title}</h4>
+              <p>$${p.price}</p>
+            `;
+            container.appendChild(div);
+          });
+        });
+    }
+
+    // Logout
+    function logout() {
+      localStorage.removeItem("loggedIn");
+      alert("Logged out successfully.");
+      showSection('loginSection');
+    }
+
+    // Default to login
+    showSection('loginSection');
+  </script>
+</body>
+</html>
