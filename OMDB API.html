@@ -1,0 +1,82 @@
+<!--OMDB API-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Debounced Movie Search</title>
+    <style>
+        #results {
+            margin-top: 20px;
+        }
+        .movie {
+            margin: 5px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>Movie Search</h1>
+    <input type="text" id="movie-search" placeholder="Search for a movie..." />
+    <div id="results"></div>
+
+    <script>
+        // Replace with your actual OMDB API key
+        const API_KEY = 'YOUR_API_KEY';
+        const searchInput = document.getElementById('movie-search');
+        const resultsDiv = document.getElementById('results');
+
+        // Variable to store the timeout ID for debouncing
+        let timeoutId;
+
+        // Function to fetch movies from the OMDB API
+        function fetchMovies(query) {
+            if (query.trim() === '') {
+                resultsDiv.innerHTML = '';
+                return;
+            }
+
+            const url = `https://www.omdbapi.com/?apikey=${API_KEY}&s=${query}`;
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.Response === 'True') {
+                        const movies = data.Search;
+                        displayMovies(movies);
+                    } else {
+                        resultsDiv.innerHTML = 'No movies found.';
+                    }
+                })
+                .catch(error => {
+                    console.error('Error fetching movie data:', error);
+                    resultsDiv.innerHTML = 'Error fetching data.';
+                });
+        }
+
+        // Function to display the fetched movie titles
+        function displayMovies(movies) {
+            resultsDiv.innerHTML = '';
+            movies.forEach(movie => {
+                const movieDiv = document.createElement('div');
+                movieDiv.classList.add('movie');
+                movieDiv.textContent = movie.Title;
+                resultsDiv.appendChild(movieDiv);
+            });
+        }
+
+        // Debounce function to delay API calls
+        function debounceSearch(event) {
+            // Clear the previous timeout to cancel previous requests
+            clearTimeout(timeoutId);
+
+            // Set a new timeout to make the API call after 500ms
+            timeoutId = setTimeout(() => {
+                const query = event.target.value;
+                fetchMovies(query);
+            }, 500);
+        }
+
+        // Add an event listener for the input box
+        searchInput.addEventListener('input', debounceSearch);
+    </script>
+</body>
+</html>

@@ -1,0 +1,115 @@
+<!--Picsum API-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Throttled Image Slider</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+        #slider-container {
+            margin: 50px auto;
+            width: 600px;
+        }
+        img {
+            width: 100%;
+            height: auto;
+            display: block;
+            margin: 0 auto;
+        }
+        #slide-number {
+            font-size: 18px;
+            margin-top: 10px;
+        }
+        .button-container {
+            margin-top: 20px;
+        }
+        .button-container button {
+            padding: 10px 20px;
+            font-size: 16px;
+            margin: 0 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Throttled Image Slider</h1>
+    <div id="slider-container">
+        <img id="image" src="https://picsum.photos/600/400?random" alt="Random Image">
+        <div id="slide-number">Slide 1</div>
+        <div class="button-container">
+            <button id="prev-button">Previous</button>
+            <button id="next-button">Next</button>
+        </div>
+    </div>
+
+    <script>
+        const imageElement = document.getElementById('image');
+        const slideNumberElement = document.getElementById('slide-number');
+        const prevButton = document.getElementById('prev-button');
+        const nextButton = document.getElementById('next-button');
+
+        let slideNumber = 1; // Keep track of the slide number
+        let clickCount = 0; // Track the number of clicks within 1 second
+        let lastClickTime = 0; // Time of the last click
+
+        // Function to fetch a new random image from Picsum
+        function fetchImage() {
+            const randomImageUrl = `https://picsum.photos/600/400?random=${Date.now()}`;
+            imageElement.src = randomImageUrl; // Set the new image source
+            slideNumberElement.textContent = `Slide ${slideNumber}`;
+        }
+
+        // Throttling function to control the rate of image changes
+        function throttle(fn, delay) {
+            let lastCall = 0;
+            return function (...args) {
+                const now = new Date().getTime();
+                if (now - lastCall >= delay) {
+                    lastCall = now;
+                    fn(...args);
+                }
+            };
+        }
+
+        // Function to detect spam clicks
+        function handleClick(direction) {
+            const now = new Date().getTime();
+            // If the time between clicks is less than 1 second, increment the click count
+            if (now - lastClickTime <= 1000) {
+                clickCount++;
+            } else {
+                // Reset click count if it's been more than 1 second since the last click
+                clickCount = 1;
+            }
+
+            lastClickTime = now;
+
+            // If there are more than 3 clicks within 1 second, show an alert
+            if (clickCount > 3) {
+                alert("Chill chill, loading it!!");
+                return; // Stop further processing
+            }
+
+            // Update slide number and fetch the next or previous image
+            if (direction === 'next') {
+                slideNumber++;
+            } else if (direction === 'prev' && slideNumber > 1) {
+                slideNumber--;
+            }
+
+            fetchImage();
+        }
+
+        // Create throttled versions of the handleClick function for both buttons
+        const throttledPrevClick = throttle(() => handleClick('prev'), 1000);
+        const throttledNextClick = throttle(() => handleClick('next'), 1000);
+
+        // Event listeners for the Next and Previous buttons
+        prevButton.addEventListener('click', throttledPrevClick);
+        nextButton.addEventListener('click', throttledNextClick);
+    </script>
+</body>
+</html>
