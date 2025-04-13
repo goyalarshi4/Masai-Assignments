@@ -1,0 +1,135 @@
+<!--Firebase 1
+Rick and Morty Wiki Application-->
+<!-- index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Rick and Morty Characters</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding-bottom: 60px;
+      background: #f4f4f4;
+    }
+    header {
+      background: #222;
+      color: #fff;
+      padding: 1rem;
+      text-align: center;
+    }
+    .container {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+      padding: 1rem;
+    }
+    .card {
+      background: white;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      transition: 0.2s;
+      cursor: pointer;
+    }
+    .card:hover {
+      transform: scale(1.02);
+    }
+    .card img {
+      width: 100%;
+    }
+    .card-content {
+      padding: 0.5rem 1rem;
+    }
+    .pagination {
+      text-align: center;
+      margin: 1rem;
+    }
+    .pagination button {
+      padding: 0.5rem 1rem;
+      margin: 0 0.5rem;
+      font-weight: bold;
+    }
+    footer {
+      background: #222;
+      color: #fff;
+      text-align: center;
+      padding: 1rem;
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Rick and Morty Character Gallery</h1>
+  </header>
+  <div class="container" id="character-list"></div>
+  <div class="pagination">
+    <button onclick="prevPage()">Previous</button>
+    <button onclick="nextPage()">Next</button>
+  </div>
+  <footer>
+    <div id="clock">Loading time...</div>
+  </footer>
+
+  <script>
+    let page = 1;
+    const characterList = document.getElementById('character-list');
+
+    async function fetchCharacters(pageNum) {
+      const res = await fetch(`https://rickandmortyapi.com/api/character?page=${pageNum}`);
+      const data = await res.json();
+      displayCharacters(data.results);
+    }
+
+    function displayCharacters(characters) {
+      characterList.innerHTML = "";
+      characters.slice(0, 6).forEach(char => {
+        const card = document.createElement('div');
+        card.className = 'card';
+        card.innerHTML = `
+          <img src="${char.image}" alt="${char.name}">
+          <div class="card-content">
+            <h3>${char.name}</h3>
+            <p>Species: ${char.species}</p>
+            <p>Status: ${char.status}</p>
+          </div>
+        `;
+        card.onclick = () => {
+          window.open(`character.html?id=${char.id}`, '_blank');
+        };
+        characterList.appendChild(card);
+      });
+    }
+
+    function nextPage() {
+      page++;
+      fetchCharacters(page);
+    }
+
+    function prevPage() {
+      if (page > 1) {
+        page--;
+        fetchCharacters(page);
+      }
+    }
+
+    function updateClock() {
+      const clock = document.getElementById("clock");
+      setInterval(() => {
+        const now = new Date();
+        const time = now.toLocaleTimeString('en-GB');
+        const date = now.toLocaleDateString('en-GB', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+        clock.textContent = `${time} ${date}`;
+      }, 1000);
+    }
+
+    fetchCharacters(page);
+    updateClock();
+  </script>
+</body>
+</html>

@@ -1,0 +1,231 @@
+<!--Rick and Morty Wiki Application-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Rick and Morty Wiki</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f3f3f3;
+      color: #333;
+    }
+
+    header {
+      text-align: center;
+      padding: 1rem;
+      background-color: #20232a;
+      color: #61dafb;
+    }
+
+    #gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1rem;
+      padding: 1rem;
+    }
+
+    .card {
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      overflow: hidden;
+      cursor: pointer;
+      transition: transform 0.2s ease;
+    }
+
+    .card:hover {
+      transform: scale(1.02);
+    }
+
+    .card img {
+      width: 100%;
+      height: auto;
+    }
+
+    .card-content {
+      padding: 1rem;
+    }
+
+    .pagination {
+      display: flex;
+      justify-content: center;
+      margin: 1rem 0;
+      gap: 10px;
+    }
+
+    button {
+      padding: 0.5rem 1rem;
+      border: none;
+      background-color: #61dafb;
+      color: #20232a;
+      font-weight: bold;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    footer {
+      text-align: center;
+      padding: 1rem;
+      background-color: #20232a;
+      color: white;
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+    }
+
+    /* Detail view modal */
+    .modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      display: none;
+      background-color: rgba(0,0,0,0.7);
+      justify-content: center;
+      align-items: center;
+    }
+
+    .modal-content {
+      background: white;
+      padding: 2rem;
+      border-radius: 10px;
+      width: 90%;
+      max-width: 600px;
+      overflow-y: auto;
+      max-height: 90%;
+      position: relative;
+    }
+
+    .modal-content img {
+      max-width: 100%;
+      border-radius: 8px;
+    }
+
+    .close-btn {
+      position: absolute;
+      top: 10px;
+      right: 15px;
+      font-size: 20px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Rick and Morty Wiki</h1>
+  </header>
+
+  <main>
+    <div id="gallery"></div>
+    <div class="pagination">
+      <button id="prevBtn">Previous</button>
+      <button id="nextBtn">Next</button>
+    </div>
+  </main>
+
+  <footer>
+    <div id="clock">Loading clock...</div>
+  </footer>
+
+  <!-- Character Detail Modal -->
+  <div class="modal" id="detailModal">
+    <div class="modal-content" id="detailContent">
+      <span class="close-btn" onclick="closeModal()">×</span>
+      <!-- Character details will be injected here -->
+    </div>
+  </div>
+
+  <script>
+    const gallery = document.getElementById("gallery");
+    const prevBtn = document.getElementById("prevBtn");
+    const nextBtn = document.getElementById("nextBtn");
+    let currentPage = 1;
+
+    async function fetchCharacters(page = 1) {
+      const res = await fetch(`https://rickandmortyapi.com/api/character?page=${page}`);
+      const data = await res.json();
+      renderCharacters(data.results);
+      prevBtn.disabled = !data.info.prev;
+      nextBtn.disabled = !data.info.next;
+    }
+
+    function renderCharacters(characters) {
+      gallery.innerHTML = "";
+      characters.forEach(character => {
+        const card = document.createElement("div");
+        card.className = "card";
+        card.innerHTML = `
+          <img src="${character.image}" alt="${character.name}" />
+          <div class="card-content">
+            <h3>${character.name}</h3>
+            <p>Species: ${character.species}</p>
+            <p>Status: ${character.status}</p>
+          </div>
+        `;
+        card.onclick = () => showCharacterDetail(character.id);
+        gallery.appendChild(card);
+      });
+    }
+
+    prevBtn.onclick = () => {
+      if (currentPage > 1) {
+        currentPage--;
+        fetchCharacters(currentPage);
+      }
+    };
+
+    nextBtn.onclick = () => {
+      currentPage++;
+      fetchCharacters(currentPage);
+    };
+
+    async function showCharacterDetail(id) {
+      const res = await fetch(`https://rickandmortyapi.com/api/character/${id}`);
+      const char = await res.json();
+
+      document.getElementById("detailContent").innerHTML = `
+        <span class="close-btn" onclick="closeModal()">×</span>
+        <h2>${char.name}</h2>
+        <img src="${char.image}" alt="${char.name}" />
+        <p><strong>Status:</strong> ${char.status}</p>
+        <p><strong>Species:</strong> ${char.species}</p>
+        <p><strong>Type:</strong> ${char.type || "N/A"}</p>
+        <p><strong>Gender:</strong> ${char.gender}</p>
+        <p><strong>Origin:</strong> ${char.origin.name}</p>
+        <p><strong>Location:</strong> ${char.location.name}</p>
+        <p><strong>Episode Count:</strong> ${char.episode.length}</p>
+      `;
+      document.getElementById("detailModal").style.display = "flex";
+    }
+
+    function closeModal() {
+      document.getElementById("detailModal").style.display = "none";
+    }
+
+    function updateClock() {
+      const clock = document.getElementById("clock");
+      setInterval(() => {
+        const now = new Date();
+        const time = now.toLocaleTimeString('en-GB');
+        const date = now.toLocaleDateString('en-GB', {
+          weekday: 'long',
+          year: 'numeric',
+          month: 'long',
+          day: 'numeric'
+        });
+        clock.textContent = `${time} ${date}`;
+      }, 1000);
+    }
+
+    // Initialize
+    fetchCharacters(currentPage);
+    updateClock();
+  </script>
+</body>
+</html>
