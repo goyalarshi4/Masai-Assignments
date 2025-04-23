@@ -1,0 +1,57 @@
+<!--Difference Between Declarative and Imperative Programming-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Declarative vs Imperative Programming</title>
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: space-around;
+      padding: 50px;
+    }
+    .box {
+      width: 45%;
+      padding: 20px;
+      border: 2px solid #ccc;
+      border-radius: 10px;
+    }
+    h2 {
+      text-align: center;
+      color: #444;
+    }
+  </style>
+</head>
+<body>
+  <!-- Imperative Container -->
+  <div class="box">
+    <h2>Imperative (Vanilla JS)</h2>
+    <div id="imperative-root"></div>
+  </div>
+
+  <!-- Declarative Container -->
+  <div class="box">
+    <h2>Declarative (React)</h2>
+    <div id="declarative-root"></div>
+  </div>
+
+  <script>
+    // Imperative: step-by-step manual DOM manipulation
+    const p = document.createElement("p");
+    p.textContent = "Hello, World!";
+    document.getElementById("imperative-root").appendChild(p);
+  </script>
+
+  <script type="text/babel">
+    // Declarative: describing what to render using React
+    const App = () => <p>Hello, World!</p>;
+    const root = ReactDOM.createRoot(document.getElementById("declarative-root"));
+    root.render(<App />);
+  </script>
+</body>
+</html>
+

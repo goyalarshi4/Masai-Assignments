@@ -1,0 +1,86 @@
+
+<!--Virtual DOM Performance in React
+
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Virtual DOM vs Traditional DOM</title>
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <script crossorigin src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <style>
+    body {
+      font-family: sans-serif;
+      display: flex;
+      justify-content: space-around;
+      margin-top: 50px;
+    }
+    .container {
+      width: 45%;
+      text-align: center;
+      padding: 20px;
+      border: 1px solid #ccc;
+      border-radius: 12px;
+    }
+    button {
+      margin-top: 10px;
+      padding: 8px 16px;
+    }
+  </style>
+</head>
+<body>
+  <!-- Vanilla JS Section -->
+  <div class="container">
+    <h2>Vanilla JS</h2>
+    <h3 id="vanilla-title">Initial Vanilla Title</h3>
+    <button onclick="changeVanillaTitle()">Change Title (Vanilla JS)</button>
+    <p id="vanilla-count">Vanilla DOM Updates: 0</p>
+  </div>
+
+  <!-- React Section -->
+  <div class="container" id="react-root"></div>
+
+  <!-- Vanilla JS Script -->
+  <script>
+    let vanillaUpdateCount = 0;
+
+    function changeVanillaTitle() {
+      vanillaUpdateCount++;
+      document.title = `Vanilla Title Updated ${vanillaUpdateCount}`;
+      document.getElementById("vanilla-title").innerText = `Vanilla Title Updated ${vanillaUpdateCount}`;
+      document.getElementById("vanilla-count").innerText = `Vanilla DOM Updates: ${vanillaUpdateCount}`;
+    }
+  </script>
+
+  <!-- React Script -->
+  <script type="text/babel">
+    const { useState } = React;
+
+    function App() {
+      const [title, setTitle] = useState("Initial React Title");
+      const [updateCount, setUpdateCount] = useState(0);
+
+      const handleReactTitleChange = () => {
+        const newCount = updateCount + 1;
+        setTitle(`React Title Updated ${newCount}`);
+        setUpdateCount(newCount);
+        document.title = `React Title Updated ${newCount}`; // optional: show in tab
+      };
+
+      return (
+        <div>
+          <h2>React</h2>
+          <h3>{title}</h3>
+          <button onClick={handleReactTitleChange}>Change Title (React)</button>
+          <p>React DOM Updates: {updateCount}</p>
+        </div>
+      );
+    }
+
+    const root = ReactDOM.createRoot(document.getElementById("react-root"));
+    root.render(<App />);
+  </script>
+</body>
+</html>
