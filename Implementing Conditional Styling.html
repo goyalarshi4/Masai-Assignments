@@ -1,0 +1,46 @@
+<!--Implementing Conditional Styling-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Color Toggle Button</title>
+</head>
+<body>
+  <div id="root"></div>
+
+  <!-- React and Babel CDN -->
+  <script src="https://unpkg.com/react@17/umd/react.development.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js" crossorigin></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+  <!-- JSX Script -->
+  <script type="text/babel">
+    function ColorToggleButton() {
+      const [isBlue, setIsBlue] = React.useState(true);
+
+      const toggleColor = () => {
+        setIsBlue(!isBlue);
+      };
+
+      const buttonStyle = {
+        backgroundColor: isBlue ? 'blue' : 'red',
+        color: 'white',
+        padding: '10px 20px',
+        border: 'none',
+        borderRadius: '5px',
+        fontSize: '16px',
+        cursor: 'pointer',
+      };
+
+      return (
+        <button style={buttonStyle} onClick={toggleColor}>
+          Color: {isBlue ? 'Blue' : 'Red'}
+        </button>
+      );
+    }
+
+    ReactDOM.render(<ColorToggleButton />, document.getElementById('root'));
+  </script>
+</body>
+</html>

@@ -1,0 +1,130 @@
+<!-- Building components & Layout-->
+// index.html (with CDN setup)
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Pricing Plans</title>
+</head>
+<body>
+  <div id="root"></div>
+  <script src="https://unpkg.com/react@17/umd/react.development.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js" crossorigin></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  
+  <script type="text/babel">
+
+    const styles = {
+      container: { fontFamily: "Arial", padding: "2rem", maxWidth: "800px", margin: "auto" },
+      header: { textAlign: "center", marginBottom: "2rem" },
+      title: { fontSize: "24px", fontWeight: "bold" },
+      subtitle: { color: "#999", maxWidth: "500px", margin: "0 auto" },
+      planList: { display: "flex", flexDirection: "column", gap: "1.5rem" },
+      card: {
+        borderTop: "1px solid #eee",
+        display: "flex",
+        justifyContent: "space-between",
+        alignItems: "center",
+        padding: "1rem 0",
+      },
+      cardLeft: { flex: 1 },
+      planTitle: { fontWeight: "bold", marginBottom: "0.5rem" },
+      price: { fontSize: "22px", fontWeight: "bold" },
+      features: { marginBottom: "0.5rem" },
+      button: {
+        padding: "0.5rem 1rem",
+        borderRadius: "5px",
+        backgroundColor: "#b095f7",
+        color: "white",
+        border: "none",
+        cursor: "pointer",
+        fontWeight: "bold"
+      },
+      buttonLight: {
+        backgroundColor: "#e0e0e0",
+        color: "#333",
+      },
+      check: {
+        color: "green",
+        marginRight: "0.5rem"
+      }
+    };
+
+    const Header = () => (
+      <div style={styles.header}>
+        <div style={styles.title}>
+          The Right Plan for <span style={{ color: "#b095f7" }}>Your Business</span>
+        </div>
+        <p style={styles.subtitle}>
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam quod in iure vero. Facilis magnam, sed officiis commodi labore odit.
+        </p>
+      </div>
+    );
+
+    const FeatureItem = ({ text }) => (
+      <div style={styles.features}>
+        <span style={styles.check}>✔</span> {text}
+      </div>
+    );
+
+    const PlanCard = ({ title, price, features, isPrimary }) => (
+      <div style={styles.card}>
+        <div style={styles.cardLeft}>
+          <div style={styles.planTitle}>{title}</div>
+          {features.map((feat, idx) => <FeatureItem key={idx} text={feat} />)}
+        </div>
+        <div>
+          <div style={styles.price}>{price}</div>
+          <button
+            style={{
+              ...styles.button,
+              ...(isPrimary ? {} : styles.buttonLight)
+            }}
+          >
+            Get Started
+          </button>
+        </div>
+      </div>
+    );
+
+    const PlanList = () => {
+      const plans = [
+        {
+          title: "Starter",
+          price: "Free",
+          features: ["1 lorem ipsum", "Lorem, ipsum dolor.", "Monthly Updates"],
+          isPrimary: false
+        },
+        {
+          title: "Lorem Plus",
+          price: "$32.00",
+          features: ["1 lorem ipsum", "Lorem, ipsum dolor.", "Monthly Updates"],
+          isPrimary: true
+        },
+        {
+          title: "Lorem Pro",
+          price: "$50.00",
+          features: ["1 lorem ipsum", "Lorem, ipsum dolor.", "Monthly Updates"],
+          isPrimary: false
+        },
+      ];
+      return (
+        <div style={styles.planList}>
+          {plans.map((plan, idx) => (
+            <PlanCard key={idx} {...plan} />
+          ))}
+        </div>
+      );
+    };
+
+    const App = () => (
+      <div style={styles.container}>
+        <Header />
+        <PlanList />
+      </div>
+    );
+
+    ReactDOM.render(<App />, document.getElementById("root"));
+  </script>
+</body>
+</html>

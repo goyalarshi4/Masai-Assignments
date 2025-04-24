@@ -1,0 +1,67 @@
+<!--Building a Reusable Card Component-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Reusable Card Component</title>
+</head>
+<body>
+  <div id="root"></div>
+
+  <!-- React and Babel CDN -->
+  <script src="https://unpkg.com/react@17/umd/react.development.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js" crossorigin></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+  <!-- JSX Script -->
+  <script type="text/babel">
+    // Reusable Card Component
+    function Card({ title, children }) {
+      const cardStyle = {
+        border: "1px solid #ccc",
+        borderRadius: "8px",
+        padding: "16px",
+        margin: "16px",
+        boxShadow: "2px 2px 12px rgba(0, 0, 0, 0.1)",
+        maxWidth: "400px"
+      };
+
+      const titleStyle = {
+        fontSize: "18px",
+        fontWeight: "bold",
+        marginBottom: "8px"
+      };
+
+      return (
+        <div style={cardStyle}>
+          <div style={titleStyle}>{title}</div>
+          <div>{children}</div>
+        </div>
+      );
+    }
+
+    // Parent Component Rendering Multiple Cards
+    function App() {
+      return (
+        <div>
+          <Card title="Card One">
+            <p>This is the content for the first card.</p>
+          </Card>
+          <Card title="Card Two">
+            <ul>
+              <li>Item A</li>
+              <li>Item B</li>
+            </ul>
+          </Card>
+          <Card title="Card Three">
+            <p><strong>Dynamic content</strong> with custom elements can go here.</p>
+          </Card>
+        </div>
+      );
+    }
+
+    ReactDOM.render(<App />, document.getElementById('root'));
+  </script>
+</body>
+</html>
